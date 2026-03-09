@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Article Progress</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#0e1621;
+--card:#17212b;
+--card2:#1f2c3a;
+--accent:#2ea6ff;
+--text:#e9f1f7;
+--muted:#8fa3b8;
+}
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Inter,system-ui,Arial;
+background:var(--bg);
+color:var(--text);
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+animation:fadeIn .6s ease;
+}
+
+h1{
+font-weight:600;
+font-size:26px;
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:20px;
+}
+
+.card{
+background:var(--card);
+border-radius:18px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 8px 30px rgba(0,0,0,0.35);
+transition:.25s;
+}
+
+.card:hover{
+transform:translateY(-3px);
+}
+
+.label{
+font-size:13px;
+color:var(--muted);
+margin-bottom:8px;
+}
+
+input{
+width:100%;
+padding:14px 16px;
+font-size:18px;
+border-radius:12px;
+border:none;
+background:var(--card2);
+color:white;
+outline:none;
+transition:.25s;
+}
+
+input:focus{
+box-shadow:0 0 0 2px var(--accent);
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:12px;
+margin-top:10px;
+}
+
+.stat{
+background:var(--card2);
+padding:14px;
+border-radius:12px;
+font-size:14px;
+display:flex;
+flex-direction:column;
+gap:4px;
+animation:slideUp .5s ease;
+}
+
+.stat b{
+font-size:18px;
+font-weight:600;
+}
+
+.deadline{
+color:#ff5c5c;
+}
+
+.progress{
+height:22px;
+background:#0a1118;
+border-radius:20px;
+margin-top:20px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+width:0%;
+border-radius:20px;
+background:linear-gradient(90deg,
+#ff3b3b 0%,
+#ff8c00 16%,
+#ffd400 33%,
+#3cff00 50%,
+#00d4ff 66%,
+#0066ff 83%,
+#9b00ff 100%
+);
+background-size:200% 100%;
+animation:rainbowShift 6s linear infinite;
+transition:width .6s ease;
+}
+
+.icon{
+width:20px;
+height:20px;
+opacity:.9;
+}
+
+.header-icon{
+width:26px;
+height:26px;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:none}
+}
+
+@keyframes slideUp{
+from{opacity:0;transform:translateY(6px)}
+to{opacity:1;transform:none}
+}
+
+@keyframes rainbowShift{
+0%{background-position:0% 50%}
+100%{background-position:100% 50%}
+}
+to{opacity:1;transform:none}
+}
+
+/* mobile */
+@media (max-width:600px){
+.container{padding:14px}
+
+h1{font-size:22px}
+
+input{font-size:16px}
+
+.stat b{font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>
+<svg class="header-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 3h12a2 2 0 012 2v14l-4-3H4a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
+Трекер публикации
+</h1>
+
+<div class="card">
+<div class="label">Сколько статей сделано (можно писать 10+5 или 20*2)</div>
+<input id="input" placeholder="например: 40+12">
+</div>
+
+<div class="card">
+
+<div class="stats">
+
+<div class="stat">
+<div>
+<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm10 8h8V3h-8v18zM3 21h8v-6H3v6z"/></svg>
+Всего примерно
+</div>
+<b id="total"></b>
+</div>
+
+<div class="stat">
+<div>
+<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2l-3.5-3.5L4 14.2 9 19l11-11-1.5-1.5z"/></svg>
+Сделано
+</div>
+<b id="done"></b>
+</div>
+
+<div class="stat">
+<div>
+<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
+Осталось
+</div>
+<b id="left"></b>
+</div>
+
+<div class="stat">
+<div>
+<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17h3v-7H3v7zm5 0h3V3H8v14zm5 0h3v-4h-3v4zm5 0h3v-10h-3v10z"/></svg>
+Прогресс
+</div>
+<b id="percent"></b>
+</div>
+
+<div class="stat deadline">
+<div>
+<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 11H7v-2h4V6h2v7z"/></svg>
+Дедлайн
+</div>
+<b>13 апреля</b>
+</div>
+
+<div class="stat">
+<div>
+<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2h-2V2h-2v2H9V2H7zm12 18H5V9h14v11z"/></svg>
+Дней осталось
+</div>
+<b id="days"></b>
+</div>
+
+<div class="stat">
+<div>
+<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h7v8l10-12h-7z"/></svg>
+Нужно в день
+</div>
+<b id="perday"></b>
+</div>
+
+</div>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+const approxIssues=12
+const approxPerIssue=66
+const total=approxIssues*approxPerIssue
+
+document.getElementById("total").innerText=total
+
+function calc(expr){
+try{return Function("return "+expr)()}catch{return 0}
+}
+
+function update(){
+let val=document.getElementById("input").value.trim()
+let done=calc(val||0)
+if(done<0)done=0
+
+let left=Math.max(total-done,0)
+let percent=Math.min((done/total)*100,100)
+
+let deadline=new Date("2026-04-13")
+let today=new Date()
+let days=Math.ceil((deadline-today)/(1000*60*60*24))
+if(days<1)days=1
+
+let perday=Math.ceil(left/days)
+
+let bar=document.getElementById("bar")
+bar.style.width=percent+"%"
+
+
+document.getElementById("done").innerText=Math.floor(done)
+
+document.getElementById("left").innerText=Math.floor(left)
+
+document.getElementById("percent").innerText=percent.toFixed(1)+"%"
+
+document.getElementById("days").innerText=days
+
+document.getElementById("perday").innerText=perday
+}
+
+document.getElementById("input").addEventListener("input",update)
+update()
+</script>
+</body>
+</html>
