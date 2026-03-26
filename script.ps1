@@ -1,4 +1,3 @@
-# script.ps1 — положи на GitHub и используй RAW ссылку
 # ВСТАВЬ СВОЙ ASCII-АРТ СЮДА
 $asciiArt = @"
   █████╗ ███████╗ ██████╗██╗██╗
@@ -10,30 +9,51 @@ $asciiArt = @"
         ТВОЙ ASCII АРТ
 "@
 
-# Открываем CMD на весь экран
+# Фуллскрин (F11)
 $wshell = New-Object -ComObject wscript.shell
 $wshell.SendKeys('{F11}')
+Start-Sleep -Milliseconds 300
 
-# Устанавливаем красный цвет
+# Получаем реальные размеры консоли
+$width  = [Console]::WindowWidth
+$height = [Console]::WindowHeight
+
+# Красный цвет
 Write-Host "`e[31m" -NoNewline
 
-# Заполняем экран случайными цифрами
-for ($i = 0; $i -lt 2000; $i++) {
-    Write-Host -NoNewline (Get-Random -Minimum 0 -Maximum 9)
-    if ($i % 100 -eq 0) { Write-Host "" }
+# Заполнение экрана
+for ($y = 0; $y -lt $height; $y++) {
+    $line = ""
+    for ($x = 0; $x -lt $width; $x++) {
+        $line += Get-Random -Minimum 0 -Maximum 9
+    }
+    Write-Host $line
 }
-Start-Sleep -Milliseconds 800
 
-# Очистка экрана
+Start-Sleep -Milliseconds 800
 Clear-Host
 
-# Центрируем ASCII-арт (примерно)
+# Разбиваем ASCII
 $lines = $asciiArt -split "`n"
-$width = 80
-foreach ($line in $lines) {
-    $padding = [Math]::Max(0, ($width - $line.Length) / 2)
-    Write-Host (" " * $padding) + $line
+
+# Высота ASCII
+$artHeight = $lines.Count
+
+# Максимальная длина строки ASCII
+$artWidth = ($lines | Measure-Object -Property Length -Maximum).Maximum
+
+# Вертикальный отступ (центр)
+$topPadding = [Math]::Max(0, ($height - $artHeight) / 2)
+
+# Пустые строки сверху
+for ($i = 0; $i -lt $topPadding; $i++) {
+    Write-Host ""
 }
 
-# Чтобы окно не закрывалось
+# Вывод по центру
+foreach ($line in $lines) {
+    $leftPadding = [Math]::Max(0, ($width - $line.Length) / 2)
+    Write-Host (" " * $leftPadding + $line)
+}
+
 Read-Host "Press Enter to exit"
